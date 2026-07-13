@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 📚 BCM-GEST — Système de Gestion Éditoriale
 
 **BCM-GEST** est une application web moderne de gestion de flux éditorial, conçue pour accompagner le processus complet de production de contenu : depuis l'import de fichiers bruts (audio, PDF, images) jusqu'à la publication finale, en passant par la transcription, la création de projets de livres et les relectures multiples.
@@ -710,3 +711,7 @@ Développé par l'équipe BCM-GEST.
 ## 📄 Licence
 
 Propriétaire — Tous droits réservés.
+=======
+# BCM-GEST
+ZTF-GEST
+>>>>>>> e916fa8fc9da0b15cfe47934e6b8e3e76c800f5b
