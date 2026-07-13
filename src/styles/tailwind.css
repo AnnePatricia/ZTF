@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Couleurs personnalisées (exemple pour .bg-primary, .text-primary, etc.) */
+.bg-primary {
+  @apply bg-blue-600;
+}
+.bg-primary-dark {
+  @apply bg-blue-800;
+}
+.text-primary {
+  @apply text-blue-600;
+}
+.text-primary-dark {
+  @apply text-blue-800;
+}
+
+/* Barre de progression générique */
+.progress-bar {
+  @apply w-full h-2 bg-gray-200 dark:bg-gray-700 rounded;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  @apply h-2 rounded transition-all duration-300;
+}
+
+/* Animations personnalisées */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Transition hover pour les boutons */
+button, a {
+  transition: all 0.3s ease;
+}
+
+button:hover, a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Effet de scale au hover */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+}
+
+.group:hover .group-hover\:animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Animation pour le popup document suivant */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Couleurs BCM professionnelle */
+.bg-bcm-primary { @apply bg-blue-600; }
+.bg-bcm-primary-hover { @apply bg-blue-700; }
+.bg-bcm-success { @apply bg-green-600; }
+.bg-bcm-success-hover { @apply bg-green-700; }
+.bg-bcm-warning { @apply bg-yellow-500; }
+.bg-bcm-warning-hover { @apply bg-yellow-600; }
+.bg-bcm-purple { @apply bg-purple-600; }
+.bg-bcm-purple-hover { @apply bg-purple-700; }
+
+/* États désactivés */
+.opacity-disabled { @apply opacity-50 cursor-not-allowed; }
+
+/* Ombres douces */
+.shadow-bcm { @apply shadow-md hover:shadow-lg transition-shadow duration-200; }
+
+/* Stabilisation des menus déroulants */
+.group:hover .group-hover\:block {
+  display: block !important;
+}
+
+.context-menu {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 1;
+}
+
+.context-menu.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Empêcher la fermeture accidentelle */
+.context-menu-button {
+  position: relative;
+  z-index: 10;
+}
+
+/* Animation douce */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.context-menu {
+  animation: fadeIn 0.15s ease-out forwards;
+}
+/* Ajoute ici d'autres styles personnalisés si besoin */
+
+/* Animations Module IA */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+

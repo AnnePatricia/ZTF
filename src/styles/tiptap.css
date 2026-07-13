@@ -1,0 +1,25 @@
+/* Styles ProseMirror/TipTap */
+.ProseMirror {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ProseMirror pre {
+  white-space: pre-wrap;
+}
+
+.ProseMirror p {
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  white-space: pre-wrap;
+}
+
+
+
