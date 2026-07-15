@@ -1,158 +1,107 @@
 // src/types/superCorrection.ts
-export type SCStatus = 'OPEN' | 'LOCKED' | 'CLOSED';
-export type SCCommentType = 'TYPO' | 'DOCTRINAL' | 'STYLISTIQUE' | 'QUESTION' | 'VALIDATION_PASSAGE';
-export type SCLanguage = 'EN' | 'FR' | 'BOTH';
+// import type { ZtfBook } from './ztf';
 
-// ✅ Publication Super Correction
-export interface SuperCorrectionPublication {
+export type SuperCorrectionStatus =
+  | 'SUPER_CORRECTION_OPEN'
+  | 'SUPER_CORRECTION_LOCKED'
+  | 'SUPER_CORRECTION_CLOSED';
+
+export type CommentType =
+  | 'typo'
+  | 'doctrinal'
+  | 'stylistic'
+  | 'question'
+  | 'validation';
+
+export type CorrectorRole =
+  | 'admin'
+  | 'correcteur_communautaire'
+  | 'correcteur_invite';
+
+export interface SuperCorrectionBook {
   id: string;
   book_id: string;
-  sc_status: SCStatus;
+  status: SuperCorrectionStatus;
   validation_threshold: number;
   validation_count: number;
-  language_scope: SCLanguage;
+  language: 'EN' | 'FR' | 'BOTH';
+  published_by: string;
   published_at: string;
-  locked_at?: string;
-  closed_at?: string;
-  unlock_reason?: string;
-  published_by?: string;
-  file_url?: string;
+  locked_at: string | null;
+  closed_at: string | null;
+  expiry_date: string | null;
   created_at: string;
-  updated_at?: string;
-  // Relations
-  book?: {
-    id: string;
-    ztf_id: string;
-    title: string;
-    theme: string;
-    language: string;
-    ztf_status: string;
-    content?: string;
-  };
-  publisher?: {
-    id: string;
-    full_name: string;
-    email: string;
-  };
-  correcteurs?: SCCorrecteur[];
-  commentaires?: SCCommentaire[];
+  updated_at: string;
+  // Champs plats pour les données du livre
+  book_title?: string;
+  book_ztf_id?: string;
+  book_theme?: string;
+  book_language?: string;
+  book_word_count?: number;
+  invited_correctors?: InvitedCorrector[];
 }
 
-// ✅ Correcteur assigné
-export interface SCCorrecteur {
+export interface InvitedCorrector {
   id: string;
-  publication_id: string;
-  user_id?: string;
-  invite_email?: string;
-  invite_token?: string;
+  sc_book_id?: string;
+  email: string;
+  full_name?: string;
+  invitation_token?: string;
+  invited_at?: string;
+  accepted_at?: string | null;
+  expired_at?: string | null;
+  validation_count?: number;
+}
+
+export interface SuperCorrectionComment {
+  id: string;
+  sc_book_id: string;
+  corrector_id: string;
+  corrector_name: string;
+  corrector_email: string;
+  comment_type: CommentType;
+  selected_text: string;
+  comment_text: string;
+  paragraph_index?: number;
+  character_offset?: number;
+  is_resolved: boolean;
+  resolved_by: string | null;
+  resolved_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SuperCorrectionValidation {
+  id: string;
+  sc_book_id: string;
+  corrector_id: string;
+  corrector_name: string;
+  corrector_email: string;
+  is_validated: boolean;
+  validation_notes: string | null;
   reading_progress: number;
-  has_validated: boolean;
-  validated_at?: string;
-  expires_at?: string;
+  validated_at: string | null;
   created_at: string;
-  updated_at?: string;
-  // Relations
-  user?: {
-    id: string;
-    full_name: string;
-    email: string;
-    role: string;
-    department: string;
-  };
+  updated_at: string;
 }
 
-// ✅ Commentaire
-export interface SCCommentaire {
-  id: string;
-  publication_id: string;
-  correcteur_id: string;
-  contenu: string;
-  type_commentaire: SCCommentType;
-  texte_selectionne?: string;
-  ancrage_position?: {
-    paragraphe: number;
-    debut: number;
-    fin: number;
-  };
-  resolu: boolean;
-  resolu_par?: string;
-  resolu_at?: string;
-  created_at: string;
-  updated_at?: string;
-  // Relations
-  correcteur?: {
-    id: string;
-    invite_email?: string;
-    user?: {
-      id: string;
-      full_name: string;
-      email: string;
-    };
-  };
+export interface SuperCorrectionConfig {
+  validation_threshold: number;
+  expiry_days: number;
+  language: 'EN' | 'FR' | 'BOTH';
+  invited_correctors: string[];
 }
 
-// ✅ Labels et couleurs
-export const SC_STATUS_LABELS: Record<SCStatus, { label: string; color: string; icon: string }> = {
-  OPEN: { 
-    label: 'Ouvert', 
-    color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200', 
-    icon: 'fa-lock-open' 
-  },
-  LOCKED: { 
-    label: 'Verrouillé', 
-    color: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200', 
-    icon: 'fa-lock' 
-  },
-  CLOSED: { 
-    label: 'Fermé', 
-    color: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-200', 
-    icon: 'fa-times-circle' 
-  },
+export const COMMENT_TYPE_CONFIG: Record<CommentType, { label: string; color: string; icon: string }> = {
+  typo: { label: 'Erreur typographique', color: 'bg-yellow-100 text-yellow-800', icon: 'fa-spell-check' },
+  doctrinal: { label: 'Erreur doctrinale', color: 'bg-red-100 text-red-800', icon: 'fa-cross' },
+  stylistic: { label: 'Suggestion stylistique', color: 'bg-blue-100 text-blue-800', icon: 'fa-pen-fancy' },
+  question: { label: 'Question', color: 'bg-purple-100 text-purple-800', icon: 'fa-question-circle' },
+  validation: { label: 'Validation passage', color: 'bg-green-100 text-green-800', icon: 'fa-check-circle' },
 };
 
-export const SC_COMMENT_TYPE_LABELS: Record<SCCommentType, { label: string; color: string; icon: string }> = {
-  TYPO: { 
-    label: 'Typographie', 
-    color: 'bg-yellow-100 text-yellow-800', 
-    icon: 'fa-spell-check' 
-  },
-  DOCTRINAL: { 
-    label: 'Doctrinal', 
-    color: 'bg-red-100 text-red-800', 
-    icon: 'fa-cross' 
-  },
-  STYLISTIQUE: { 
-    label: 'Stylistique', 
-    color: 'bg-blue-100 text-blue-800', 
-    icon: 'fa-pen-fancy' 
-  },
-  QUESTION: { 
-    label: 'Question', 
-    color: 'bg-purple-100 text-purple-800', 
-    icon: 'fa-question-circle' 
-  },
-  VALIDATION_PASSAGE: { 
-    label: 'Validation', 
-    color: 'bg-green-100 text-green-800', 
-    icon: 'fa-check-circle' 
-  },
+export const SC_STATUS_CONFIG: Record<SuperCorrectionStatus, { label: string; color: string; icon: string }> = {
+  SUPER_CORRECTION_OPEN: { label: 'Correction en cours', color: 'bg-blue-500', icon: 'fa-lock-open' },
+  SUPER_CORRECTION_LOCKED: { label: 'Verrouillé', color: 'bg-green-500', icon: 'fa-lock' },
+  SUPER_CORRECTION_CLOSED: { label: 'Fermé', color: 'bg-gray-500', icon: 'fa-times-circle' },
 };
-
-// ✅ Types pour les invitations
-export interface SCInviteRequest {
-  publication_id: string;
-  email: string;
-  expires_in_days?: number;
-}
-
-export interface SCInviteLink {
-  id: string;
-  publication_id: string;
-  email: string;
-  token: string;
-  expires_at: string;
-  used_at?: string;
-  used_by?: string;
-  created_at: string;
-  is_active: boolean;
-}

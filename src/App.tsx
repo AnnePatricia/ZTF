@@ -1,11 +1,11 @@
 // src/App.tsx
 import { useState, useEffect } from "react";
 import Login from "./components/Login/Login";
-import Dashboard from "./components/Dashboard/Dashboard";
+import ZtfDashboard from "./components/Dashboard/ZtfDashboard";
 import Documents from "./components/Documents/Documents";
-import Workflow from "./components/Workflow/Workflow";
+import ZtfPipeline from "./components/Workflow/ZtfPipeline";
 import Users from "./components/Users/Users";
-import Reports from "./components/Reports/Reports";
+import ZtfReports from "./components/Reports/ZtfReports";
 import Transcription from "./components/Transcription/Transcription";
 import SCDashboard from "./components/superCorrection/SCDashboard";
 import Footer from "./components/common/Footer";
@@ -21,6 +21,7 @@ import AIPanel from './components/ia/AIPanel';
 import { QueryProvider } from './providers/QueryProvider';
 import { AppStateProvider } from "./context/AppStateContext";
 import D4Workspace from "./components/departments/D4/D4Workspace";
+// import ZtfPipeline from "./components/Workflow/ZtfPipeline";
 
 
 interface TabConfig {
@@ -81,7 +82,7 @@ function App() {
   const renderTabContent = () => {
     switch (activeTab) {
       case "dashboard":
-        return <Dashboard />;
+        return <ZtfDashboard />;
       case "documents":
         return currentView === 'documents' ? (
           <Documents userDepartment={userDepartment} userIsAdmin={userIsAdmin} />
@@ -91,7 +92,7 @@ function App() {
       case "editorialization":
         return <D4Workspace />;
       case "workflow":
-        return <Workflow />;
+        return <ZtfPipeline />;
       case "super-correction":
         if (!userIsAdmin) {
           return (
@@ -103,7 +104,7 @@ function App() {
         }
         return <SCDashboard />;
       case "reports":
-        return <Reports userDepartment={userDepartment} userIsAdmin={userIsAdmin} />;
+        return <ZtfReports />;
       case "transcription":
         return <Transcription />;
       case "users":
